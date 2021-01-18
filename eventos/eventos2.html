@@ -1,0 +1,33 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<div id="opq">
+   
+  <p>
+      
+  {{ contador }}
+  </p>
+  <button v-on:click="somar">+</button>
+  <p v-on:mousemove="atualizar">
+      mouse : {{ x }} e {{ y }}
+  </p>
+</div>  
+
+<script>
+    new Vue({
+el: '#opq',
+data: {
+    contador: 0,
+    x: 0,
+    y: 0,
+},
+    methods: {
+        somar: function() {
+            return this.contador++
+        },
+        atualizar(event) {
+            this.x = event.clientX
+            this.y = event.clientY
+            
+        }
+    }
+})
+</script>

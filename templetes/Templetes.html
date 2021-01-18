@@ -1,0 +1,25 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<div id="opq">
+   
+  <p>
+      
+  {{ titulo }}
+  </p>
+  <p>
+    {{ saudacao() }}
+  </p>
+</div>  
+
+<script>
+    new Vue({
+el: '#opq',
+data: {
+	titulo: 'usando vue js'
+},
+    methods: {
+        saudacao: function() {
+            return 'conseguir'
+        }
+    }
+})
+</script>

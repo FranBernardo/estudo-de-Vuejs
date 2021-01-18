@@ -1,0 +1,123 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<div id="app">
+    <h2>Lista de pedidos</h2>
+    <div class="frente">
+<div class="funçoes">
+    <input type="text" class="input" v-model="search"  placeholder="search" ><i class="bi bi-search"></i>
+    <select class="option" v-model="selectedCategory" >
+    <option value="All" >All</option>
+	<option value="Cancelado" >Cancelado</option>
+      <option value="Entrege">Entrege</option>
+      <option value="Em andamento">Em andamento</option>
+      <option value="A caminho">A caminho</option>
+      <option value="Em preparo">Em preparo</option>
+		</select>
+</div>
+<div class="testLista">
+ <table class="table table-striped table-hover">
+     <thead>
+         <tr>
+             
+             <th>id</th>
+             <th>Numero de pedido</th>
+             <th>Nome</th>
+             <th>Situação</th>
+             <th>Valor Total</th>
+         </tr>
+     </thead>
+     <tbody>
+         <tr v-for="item in filteredCenters">
+            <td><input type="checkbox" value="All"></td>
+             <td>{{item.pedido}}</td>
+             <td >{{item.cliente}}</td>
+             <td>{{item.situacão}}</td>
+             <td>{{item.total}}</td>
+         </tr>
+     </tbody>
+ </table>
+</div>  
+</div>
+</div>
+ <style>
+     #app{
+         background-color: #A3DDED;
+         text-align: center;
+         height: 100%;
+     }
+     .funçoes{
+         display: flex;
+         justify-content: space-between;
+     }
+     input{
+         border-radius: 5%;
+         
+         
+     }
+     .frente{
+         background-color: rgb(240, 240, 240);
+         width: 900px;
+         margin: auto;
+         padding: 10px;
+         
+     }
+ </style>
+
+<script>
+const app = new Vue ({
+    el: '#app',
+    data: {
+        search: '',
+        items: [    
+      {id: 1, pedido: 1, cliente: 'Ana Beatriz', situacão: 'Em andamento', total: 200 },         
+    {id: 2, pedido: 2, cliente: 'Paulo', situacão: 'Cancelado', total: 20 },
+    {id: 3, pedido: 3, cliente: 'Abraão', situacão: 'A caminho', total: 50 },   
+    {id: 4, pedido: 4, cliente: 'Franciele', situacão: 'Em preparo', total: 100 },  
+    {id: 5, pedido: 5, cliente: 'julia', situacão: 'Em preparo', total: 80 }, 
+    {id: 6, pedido: 6, cliente: 'Cibelle', situacão: 'Em andamento', total: 56 },
+    {id: 7, pedido: 17, cliente: 'Izabele', situacão: 'Em andamento', total: 77 },
+    {id: 8, pedido: 18, cliente: 'Maria', situacão: 'Cancelado', total: 78 },
+    {id: 9, pedido: 19, cliente: 'Fernando', situacão: 'Em andamento', total: 34 },    
+    {id: 10, pedido: 133, cliente: 'Clara', situacão: 'Entrege', total: 25 },   
+    {id: 11, pedido: 145, cliente: 'Aline', situacão: 'Cancelado', total: 76 },   
+    {id: 11, pedido: 1666, cliente: 'Jose', situacão: 'Entrege', total: 45 },   
+    {id: 12, pedido: 111, cliente: 'Felipe', situacão: 'A caminho', total: 34 },   
+    {id: 13, pedido: 134, cliente: 'Bruna', situacão: 'Em preparo', total: 67 },   
+    {id: 14, pedido: 145, cliente: 'Tamires', situacão: 'Em andamento', total:87 },   
+    {id: 15, pedido: 16, cliente: 'Joana', situacão: 'Em preparo', total: 287 },   
+    {id: 16, pedido: 188, cliente: 'Luiza', situacão: 'Em andamento', total: 100 },   
+    {id: 17, pedido: 199, cliente: 'Marcos', situacão: 'Entrege', total: 45 },
+    {id: 1, pedido: 1, cliente: 'Ana Beatriz', situacão: 'Em andamento', total: 200 },         
+    {id: 2, pedido: 2, cliente: 'Paulo', situacão: 'Cancelado', total: 20 },
+    {id: 3, pedido: 3, cliente: 'Abraão', situacão: 'A caminho', total: 50 },   
+    {id: 4, pedido: 4, cliente: 'Franciele', situacão: 'Em preparo', total: 100 },  
+    {id: 5, pedido: 5, cliente: 'julia', situacão: 'Em preparo', total: 80 }, 
+    {id: 6, pedido: 6, cliente: 'Cibelle', situacão: 'Em andamento', total: 56 },
+    {id: 7, pedido: 17, cliente: 'Izabele', situacão: 'Em andamento', total: 77 },
+    {id: 8, pedido: 18, cliente: 'Maria', situacão: 'Cancelado', total: 78 },
+    {id: 9, pedido: 19, cliente: 'Fernando', situacão: 'Em andamento', total: 34 }, 
+    ],
+    selectedCategory: "All",
+    },
+
+    computed: {
+    
+		filteredCenters: function() {
+			var vm = this;
+			var category = vm.selectedCategory;
+			
+			if(category === "All") {
+				return  this.items.filter(item => {
+                return item.cliente.toLowerCase().includes(this.search.toLowerCase()) || item.situacão.toLowerCase().includes(this.search.toLowerCase()) 
+            })
+			} else {
+				return vm.items.filter(function(item) {
+					return item.situacão === category;
+				});
+			}
+		}
+	},
+})
+
+</script>

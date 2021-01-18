@@ -1,0 +1,23 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<div id="opq">
+   
+  <p>
+      
+  {{ contador }}
+  </p>
+  <button v-on:click="somar">+</button>
+</div>  
+
+<script>
+    new Vue({
+el: '#opq',
+data: {
+	contador: 0
+},
+    methods: {
+        somar: function() {
+            return this.contador++
+        }
+    }
+})
+</script>

@@ -1,0 +1,160 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<div class="container" id="app">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="filter">
+
+	<div class="form-group">
+<input class="form-control" placeholder="Search City.,Zipcode" />
+		</div>
+			<div class="form-group">
+
+		<select class="form-control" v-model="selectedCategory">
+			<option value="All" >All</option>
+			<option value="Cancelado" >Cancelado</option>
+			<option value="Entrege">Entrege</option>
+		</select>
+				</div>
+				<div class="results">
+		<div v-for="center in filteredCenters">
+			<div class="card p-2">
+				
+			
+			<h4>{{center.cliente }}</h4>
+                <h6>{{center.pedido}}</h6>
+                <p> {{center.situacão}}</p>
+                <p>{{center.valor}}</p>
+               
+			</div>
+		</div>
+	</div>
+		
+	</div>
+<!-- 	.filter end here 		 -->
+		</div>
+<!-- 	//.col-sm-4 end	 -->
+				<div class="col-sm-8">
+    <div id="map"></div>
+    <p><b>Address</b>: <span id="address"></span></p>
+    <p id="error"></p>
+		</div>
+<!-- 	//.col-sm-8 end	 -->
+	</div>
+<!-- //.row end	 -->
+	
+	
+			
+</div>
+
+<script>
+     function writeAddressName(latLng) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+          "location": latLng
+        },
+        function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK)
+            document.getElementById("address").innerHTML = results[0].formatted_address;
+          else
+            document.getElementById("error").innerHTML += "Unable to retrieve your address" + "<br />";
+        });
+      }
+
+      function geolocationSuccess(position) {
+        var userLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        // Write the formatted address
+        writeAddressName(userLatLng);
+
+        var myOptions = {
+          zoom : 16,
+          center : userLatLng,
+          mapTypeId : google.maps.MapTypeId.ROADMAP
+        };
+        // Draw the map
+        var mapObject = new google.maps.Map(document.getElementById("map"), myOptions);
+        // Place the marker
+        new google.maps.Marker({
+          map: mapObject,
+          position: userLatLng
+        });
+        // Draw a circle around the user position to have an idea of the current localization accuracy
+        var circle = new google.maps.Circle({
+          center: userLatLng,
+         // radius: position.coords.accuracy,
+          map: mapObject
+         
+        });
+        mapObject.fitBounds(circle.getBounds());
+      }
+
+      function geolocationError(positionError) {
+        document.getElementById("error").innerHTML += "Error: " + positionError.message + "<br />";
+      }
+
+      function geolocateUser() {
+        // If the browser supports the Geolocation API
+        if (navigator.geolocation)
+        {
+          var positionOptions = {
+            enableHighAccuracy: true,
+            timeout: 10 * 1000 // 10 seconds
+          };
+          navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, positionOptions);
+        }
+        else
+          document.getElementById("error").innerHTML += "Your browser doesn't support the Geolocation API";
+      }
+
+      window.onload = geolocateUser;
+
+
+// vue 
+var vm = new Vue({
+	el:  "#app",
+	data: {
+		centers: [
+	  {id: 1, pedido: 1, cliente: 'Ana Beatriz', situacão: 'Em andamento', total: 200 },         
+    {id: 2, pedido: 2, cliente: 'Paulo', situacão: 'Cancelado', total: 20 },
+    {id: 3, pedido: 3, cliente: 'Abraão', situacão: 'A caminho', total: 50 },   
+    {id: 4, pedido: 4, cliente: 'Franciele', situacão: 'Em preparo', total: 100 },  
+    {id: 5, pedido: 5, cliente: 'julia', situacão: 'Em preparo', total: 80 }, 
+    {id: 6, pedido: 6, cliente: 'Cibelle', situacão: 'Em andamento', total: 56 },
+    {id: 7, pedido: 17, cliente: 'Izabele', situacão: 'Em andamento', total: 77 },
+    {id: 8, pedido: 18, cliente: 'Maria', situacão: 'Cancelado', total: 78 },
+    {id: 9, pedido: 19, cliente: 'Fernando', situacão: 'Em andamento', total: 34 },    
+    {id: 10, pedido: 133, cliente: 'Clara', situacão: 'Entrege', total: 25 },   
+    {id: 11, pedido: 145, cliente: 'Aline', situacão: 'Cancelado', total: 76 },   
+    {id: 11, pedido: 1666, cliente: 'Jose', situacão: 'Entrege', total: 45 },   
+    {id: 12, pedido: 111, cliente: 'Felipe', situacão: 'A caminho', total: 34 },   
+    {id: 13, pedido: 134, cliente: 'Bruna', situacão: 'Em preparo', total: 67 },   
+    {id: 14, pedido: 145, cliente: 'Tamires', situacão: 'Em andamento', total:87 },   
+    {id: 15, pedido: 16, cliente: 'Joana', situacão: 'Em preparo', total: 287 },   
+    {id: 16, pedido: 188, cliente: 'Luiza', situacão: 'Em andamento', total: 100 },   
+    {id: 17, pedido: 199, cliente: 'Marcos', situacão: 'Entrege', total: 45 },
+		],
+		selectedCategory: "All"
+	},
+	computed: {
+		filteredCenters: function() {
+			var vm = this;
+			var category = vm.selectedCategory;
+			
+			if(category === "All") {
+				return vm.centers;
+			} else {
+				return vm.centers.filter(function(center) {
+					return center.situacão === category;
+				});
+			}
+		}
+	},
+	created:{
+		
+	},
+	methods:{
+		
+	}
+});
+</script>
+
+ 

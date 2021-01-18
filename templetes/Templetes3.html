@@ -1,0 +1,28 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<div id="opq">
+   
+  <p>
+      
+  {{ titulo }}
+  </p>
+  <p>
+    {{ saudacao() }}
+  </p>
+  <a v-bind:href="link">Google</a>
+</div>  
+
+<script>
+    new Vue({
+el: '#opq',
+data: {
+  titulo: 'usando vue js',
+  link: 'https://www.google.com/'
+},
+    methods: {
+        saudacao: function() {
+          console.log(this)
+            return this.titulo
+        }
+    }
+})
+</script>
