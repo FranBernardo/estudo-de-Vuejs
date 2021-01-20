@@ -5,24 +5,20 @@
       
   {{ contador }}
   </p>
-  <p>{{contador > 10 ? 'maior ': 'monor'}}</p>
-  <button v-on:click="somar">+</button>
-  
+  <button @click="somar">+</button> <!--@click é a mesma coisa que v-on:click-->
+  <input type="text" :value="contador"> <!--:value é a mesma coisa que v-bind:value-->
 </div>  
 
 <script>
     new Vue({
 el: '#opq',
 data: {
-    contador: 0,
-    x: 0,
-    y: 0,
+	contador: 0
 },
     methods: {
         somar: function() {
             return this.contador++
-        },
-        
+        }
     }
 })
 </script>
