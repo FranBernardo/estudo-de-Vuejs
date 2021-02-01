@@ -1,0 +1,35 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+   
+</div>
+
+<script>
+    const vm = new Vue({
+        template: `
+        <div>
+        <h1>{{ aula }}</h1>
+    <h2> {{modulo}}</h2>
+    <button @click="alterarAula"> alterar aula </button>
+    <button @click="alterarModulo"> alterar modulo </butt
+            </div>
+       on>
+        
+        `,
+        data: {
+            aula: 'Aula de modulo',
+            modulo: 'modulo tal'
+        },
+        methods: { 
+            alterarAula(){
+                this.aula += '###'
+            },
+            alterarModulo(){
+                this.modulo += '!!'
+            }
+        }
+    })
+   // vm.$mount('#app')
+   vm.$mount()
+   document.querySelector('#app').appendChild(vm.$el)
+</script>
